@@ -1,19 +1,31 @@
 import { useState } from "react";
 
 const SimpleInput = (props) => {
+  // name
   const [userName, setUserName] = useState("");
   const [enteredNameTouched, setEnteredNameTouched] = useState(false);
 
+  // name validation
   const enteredNameIsValid = userName.trim() !== "";
   const nameInputIsInvalid = enteredNameTouched && !enteredNameIsValid;
 
+  // email
+  const [userEmail, setUserEmail] = useState("");
+  const [enteredEmailTouched, setEnteredEmailTouched] = useState(false);
+
+  // email validation
+  const enteredEmailIsValid = userEmail.includes("@");
+  const emailInputIsInvalid = enteredEmailTouched && !enteredEmailIsValid;
+
+  // form
   let formIsValid = false;
 
-  //전체 폼 폼 유효성 설정
-  if (enteredNameIsValid) {
+  // form validation
+  if (enteredNameIsValid && enteredEmailIsValid) {
     formIsValid = true;
   }
 
+  // name
   const userNameChangeHandler = (event) => {
     setUserName(event.target.value);
   };
@@ -22,20 +34,37 @@ const SimpleInput = (props) => {
     setEnteredNameTouched(true);
   };
 
+  // email
+  const emailChangeHandler = (event) => {
+    setUserEmail(event.target.value);
+  };
+  const emailInputBlurHandler = () => {
+    setEnteredEmailTouched(true);
+  };
+
+  // form
   const formSubmitHandler = (event) => {
     event.preventDefault();
     setEnteredNameTouched(true);
+    setEnteredEmailTouched(true);
 
-    if (!enteredNameIsValid) {
+    if (!enteredNameIsValid && !enteredNameIsValid) {
       return;
     }
-    console.log(userName);
+    console.log(userName, userEmail);
     setUserName("");
+    setUserEmail("");
     setEnteredNameTouched(false);
+    setEnteredEmailTouched(false);
   };
 
-  //유효성 검증에 따라 스타일 변경
+  // name: styles
   const nameInputClasses = nameInputIsInvalid
+    ? "form-control invalid"
+    : "form-control";
+
+  // email: styles
+  const emailInputClasses = emailInputIsInvalid
     ? "form-control invalid"
     : "form-control";
 
@@ -52,6 +81,19 @@ const SimpleInput = (props) => {
         />
         {nameInputIsInvalid && (
           <p className="error-text">Name must not be empty.</p>
+        )}
+      </div>
+      <div className={emailInputClasses}>
+        <label htmlFor="email">Your E-mail</label>
+        <input
+          type="email"
+          id="email"
+          onChange={emailChangeHandler}
+          value={userEmail}
+          onBlur={emailInputBlurHandler}
+        />
+        {emailInputIsInvalid && (
+          <p className="error-text">Please enter a valid E-mail.</p>
         )}
       </div>
       <div className="form-actions">

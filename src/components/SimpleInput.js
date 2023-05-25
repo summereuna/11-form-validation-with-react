@@ -2,11 +2,17 @@ import { useState } from "react";
 
 const SimpleInput = (props) => {
   const [userName, setUserName] = useState("");
-
   const [enteredNameTouched, setEnteredNameTouched] = useState(false);
 
   const enteredNameIsValid = userName.trim() !== "";
   const nameInputIsInvalid = enteredNameTouched && !enteredNameIsValid;
+
+  let formIsValid = false;
+
+  //전체 폼 폼 유효성 설정
+  if (enteredNameIsValid) {
+    formIsValid = true;
+  }
 
   const userNameChangeHandler = (event) => {
     setUserName(event.target.value);
@@ -49,7 +55,7 @@ const SimpleInput = (props) => {
         )}
       </div>
       <div className="form-actions">
-        <button>Submit</button>
+        <button disabled={!formIsValid}>Submit</button>
       </div>
     </form>
   );

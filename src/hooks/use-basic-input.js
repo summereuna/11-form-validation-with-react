@@ -1,6 +1,7 @@
 import { useReducer } from "react";
 
 const initialInputState = { value: "", isTouched: false };
+
 const inputStateReducer = (preState, action) => {
   if (action.type === "INPUT") {
     return { value: action.value, isTouched: preState.isTouched };
@@ -8,15 +9,13 @@ const inputStateReducer = (preState, action) => {
     //따라서 그냥 이전 상태로 설정
   }
   if (action.type === "BLUR") {
-    return { isTouched: true, value: preState.value };
+    return { value: preState.value, isTouched: true };
+    //value 값도 그냥 이전 값으로 하면 된다. 키 입력 마다 받고 있기 때문에
   }
   if (action.type === "RESET") {
     return { value: "", isTouched: false };
   }
-  return {
-    value: "",
-    isTouched: false,
-  };
+  return { value: "", isTouched: false };
 };
 
 const useBasicInput = (valueValidate) => {
@@ -28,7 +27,7 @@ const useBasicInput = (valueValidate) => {
   const valueChangeHandler = (event) => {
     dispatch({ type: "INPUT", value: event.target.value });
   };
-  const valueBlurHandler = () => {
+  const inputBlurHandler = () => {
     dispatch({ type: "BLUR" });
   };
 
@@ -41,11 +40,11 @@ const useBasicInput = (valueValidate) => {
   const hasError = !isValueValid && inputState.isTouched;
 
   return {
-    value: inputState.value,
+    enteredValue: inputState.value,
     isValueValid,
     hasError,
     valueChangeHandler,
-    valueBlurHandler,
+    inputBlurHandler,
     reset,
   };
 };

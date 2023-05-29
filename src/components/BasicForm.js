@@ -8,7 +8,7 @@ const BasicForm = (props) => {
     valueChangeHandler: firstNameChangeHandler,
     valueBlurHandler: firstNameBlurHandler,
     reset: firstNameInputReset,
-  } = useBasicInput((enteredValue) => enteredValue.trim() !== "");
+  } = useBasicInput((enteredFirstName) => enteredFirstName.trim() !== "");
 
   const {
     enteredValue: enteredLastName,
@@ -17,7 +17,7 @@ const BasicForm = (props) => {
     valueChangeHandler: lastNameChangeHandler,
     valueBlurHandler: lastNameBlurHandler,
     reset: lastNameInputReset,
-  } = useBasicInput((enteredValue) => enteredValue.trim() !== "");
+  } = useBasicInput((enteredLastName) => enteredLastName.trim() !== "");
 
   const {
     enteredValue: enteredEmail,
@@ -26,7 +26,7 @@ const BasicForm = (props) => {
     valueChangeHandler: emailChangeHandler,
     valueBlurHandler: emailBlurHandler,
     reset: emailInputReset,
-  } = useBasicInput((enteredValue) => enteredValue.includes("@"));
+  } = useBasicInput((enteredEmail) => enteredEmail.includes("@"));
 
   let formIsValid = false;
 
